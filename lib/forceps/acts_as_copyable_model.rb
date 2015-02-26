@@ -99,8 +99,6 @@ module Forceps
       end
 
       def create_local_copy_with_simple_attributes(remote_object)
-        debug "#{as_trace(remote_object)} copying..."
-
         base_class = base_local_class_for(remote_object)
 
         disable_all_callbacks_for(base_class)
@@ -108,6 +106,7 @@ module Forceps
         cloned_object = base_class.new
         copy_attributes(cloned_object, simple_attributes_to_copy(remote_object))
         cloned_object.save!(validate: false)
+        debug "#{as_trace(remote_object)} -> #{as_trace(cloned_object)} saved..."
         invoke_callbacks(:after_each, cloned_object, remote_object)
         cloned_object
       end
